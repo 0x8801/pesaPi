@@ -219,7 +219,7 @@ class Transaction {
                               '$type',
                               '$superType',
                               '',
-                              '0000-00-00',
+                              '1970-01-01',
                               '',
                               '',
                               '',
