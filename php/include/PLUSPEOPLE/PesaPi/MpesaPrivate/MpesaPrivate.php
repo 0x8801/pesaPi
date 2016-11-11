@@ -63,19 +63,23 @@ class MpesaPrivate extends \PLUSPEOPLE\PesaPi\Base\Account {
 			$parser = new PersonalParser();
 			$temp = $parser->parse($message);
 
-			$transaction = Transaction::createNew($this->getId(), $temp['SUPER_TYPE'], $temp['TYPE']);
-			$transaction->setReceipt($temp['RECEIPT']);
-			$transaction->setTime($temp["TIME"]);
-			$transaction->setPhonenumber($temp['PHONE']);
-			$transaction->setName($temp['NAME']);
-			$transaction->setAccount($temp['ACCOUNT']);
-			$transaction->setStatus($temp['STATUS']);
-			$transaction->setAmount($temp['AMOUNT']);
-			$transaction->setPostBalance($temp['BALANCE']);
-			$transaction->setNote($temp['NOTE']);
- 			$transaction->setTransactionCost($temp['COST']);
-			
-			$transaction->update();
+			if($temp['AMOUNT'] > 0) {
+				$transaction = Transaction::createNew($this->getId(), $temp['SUPER_TYPE'], $temp['TYPE']);
+				$transaction->setReceipt($temp['RECEIPT']);
+				$transaction->setTime($temp["TIME"]);
+				$transaction->setPhonenumber($temp['PHONE']);
+				$transaction->setName($temp['NAME']);
+				$transaction->setAccount($temp['ACCOUNT']);
+				$transaction->setStatus($temp['STATUS']);
+				$transaction->setAmount($temp['AMOUNT']);
+				$transaction->setPostBalance($temp['BALANCE']);
+				$transaction->setNote($temp['NOTE']);
+				$transaction->setTransactionCost($temp['COST']);
+				
+				$transaction->update();
+			} else {
+				return true;
+			}
 
 			// Callback if needed
 			$this->handleCallback($transaction);
